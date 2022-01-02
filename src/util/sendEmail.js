@@ -23,7 +23,7 @@ const sendEmail = async (client) => {
         const send = await transporter.sendMail({
             text: `Olá ${name}, seu pedido foi recebido com sucesso!`,
             subject: 'Pedido Recebido',
-            from: `Loja <s${process.env.USER_EMAIL}>`,
+            from: `Loja <${process.env.USER_EMAIL}>`,
             to: [`${email}`],
         });
     

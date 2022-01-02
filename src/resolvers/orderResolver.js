@@ -42,13 +42,13 @@ const getById = async (id) => {
 };
 
 const create = async (args) => {
-    const { client_id, product_id, created_at, installments, status } = args;
+    const { client_id, product_id, installments, status } = args;
 
     return new Promise((resolve, reject) => {
         const params = [
             client_id,
             product_id,
-            created_at,
+            created_at = new Date().toISOString(),
             installments,
             status,
         ];
@@ -112,7 +112,7 @@ const create = async (args) => {
                         getLastOrder,
                         (err, row) => {
                             err && reject(err);
-                            console.log(row)
+                            
                             resolve(row);
                         },
                     );
@@ -126,13 +126,13 @@ const create = async (args) => {
 };
 
 const update = async (args) => {
-    const { id, client_id, product_id, created_at, installments, status } = args;
+    const { id, client_id, product_id, installments, status } = args;
 
     return new Promise((resolve, reject) => {
         const params = [
             client_id,
             product_id,
-            created_at,
+            created_at = new Date().toISOString(),
             installments,
             status,
             id,
