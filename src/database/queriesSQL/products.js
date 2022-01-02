@@ -1,23 +1,23 @@
-const getProductsQuery = `
+const getAllProducts = `
     SELECT * FROM products
 `;
 
-const getProductByIdQuery = `
+const getProductById = `
     SELECT * FROM products WHERE id = ?
 `;
 
-const getLastProductQuery = `
+const getLastProduct = `
     SELECT * FROM products ORDER BY id DESC LIMIT 1
 `;
 
-const addProductQuery = `
+const addProduct = `
 INSERT INTO products
     (name, image, description, weight, price, quantity)
 VALUES
     (?, ?, ?, ?, ?, ?)
 `;
 
-const updateProductQuery = `
+const updateProduct = `
 UPDATE products SET
     name = ?,
     image = ?,
@@ -28,22 +28,15 @@ UPDATE products SET
 WHERE id = ?
 `;
 
-const updateProductQuantityQuery = `
-    UPDATE products SET
-        quantity = quantity - ?
-    WHERE id = ?
-`;
-
-const removeProductQuery = `
+const removeProduct = `
     DELETE FROM products WHERE id = ?
 `;
 
 module.exports = {
-    getProductsQuery,
-    getProductByIdQuery,
-    getLastProductQuery,
-    addProductQuery,
-    updateProductQuery,
-    updateProductQuantityQuery,
-    removeProductQuery,
+    getAllProducts,
+    getProductById,
+    getLastProduct,
+    addProduct,
+    updateProduct,
+    removeProduct,
 };

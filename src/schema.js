@@ -4,6 +4,9 @@ const schema = buildSchema(`
     type Query {
         clients: [Client!],
         client(id: Int!): Client,
+
+        products: [Product!],
+        product(id: Int!): Product,
     }
 
     type Client {
@@ -19,6 +22,17 @@ const schema = buildSchema(`
         country: String!,
         zipcode: String!,
         number: String!,
+    }
+
+    type Product {
+        id: ID!,
+        name: String!,
+        image: String!,
+        description: String!,
+        weight: Float!,
+        price: Float!,
+        quantity: Int!,
+
     }
 
     type Mutation {
@@ -52,6 +66,27 @@ const schema = buildSchema(`
         ): Client!,
 
         removeClient(id: ID!): Client!
+
+        addProduct(
+            name: String!,
+            image: String!,
+            description: String!,
+            weight: Float!,
+            price: Float!,
+            quantity: Int!
+        ): Product!,
+
+        updateProduct(
+            id: ID!,
+            name: String!,
+            image: String!,
+            description: String!,
+            weight: Float!,
+            price: Float!,
+            quantity: Int!
+        ): Product!,
+
+        removeProduct(id: ID!): Product!
     }
 
 `);
