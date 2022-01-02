@@ -1,0 +1,37 @@
+const modemailer = require('nodemailer');
+
+require('dotenv').config();
+
+const transporter = modemailer.createTransport({
+    host: process.env.HOST_EMAIL,
+    port: process.env.PORT_EMAIL,
+    secure: false,
+    auth: {
+        user: process.env.USER_EMAIL,
+        pass: process.env.PASS_EMAIL,
+    },
+    tls: {
+        rejectUnauthorized: false,
+    }
+});
+
+const sendEmail = async (client) => {
+    try{
+
+        const { name, email } = client;
+
+        const send = await transporter.sendMail({
+            text: `Olá ${name}, seu pedido foi recebido com sucesso!`,
+            subject: 'Pedido Recebido',
+            from: `Loja <s${process.env.USER_EMAIL}>`,
+            to: [`${email}`],
+        });
+    
+        console.log(send);
+
+    }catch(err) {
+        console.log(err);
+    }
+};
+
+module.exports = sendEmail;
