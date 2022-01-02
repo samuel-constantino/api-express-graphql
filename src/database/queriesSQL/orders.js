@@ -1,64 +1,41 @@
-const getOrdersQuery = `
+const getAllOrders = `
     SELECT * FROM orders
 `;
 
-const getOrderByIdQuery = `
+const getOrderById = `
     SELECT * FROM orders WHERE id = ?
 `;
 
-const getLastOrderQuery = `
+const getLastOrder = `
     SELECT * FROM orders ORDER BY id DESC LIMIT 1
 `;
 
-const getOrderProductsQuery = `
-    SELECT * FROM order_products
-`;
-
-const getOrderProductById = `
-    SELECT * FROM order_products WHERE id = ?
-`;
-
-const addOrderQuery = `
+const addOrder = `
     INSERT INTO orders
-        (products, createdAt, installments, clientId, status)
+        (client_id, product_id, created_at, installments, status)
     VALUES
         (?, ?, ?, ?, ?)
 `;
 
-const addOrderProductQuery = `
-    INSERT INTO order_products
-        (orderId, productId)
-    VALUES
-        (?, ?)
-`;
-
-const updateOrderQuery = `
+const updateOrder = `
     UPDATE orders SET
-        products = ?,
-        createdAt = ?,
+        client_id = ?,
+        product_id = ?,
+        created_at = ?,
         installments = ?,
-        clientId = ?,
         status = ?
     WHERE id = ?
 `;
 
-const removeOrderQuery = `
+const removeOrder = `
     DELETE FROM orders WHERE id = ?
 `;
 
-const removeOrderProductsQuery = `
-DELETE FROM order_products WHERE orderId = ?
-`;
-
 module.exports = {
-    getOrdersQuery,
-    getOrderByIdQuery,
-    getLastOrderQuery,
-    getOrderProductsQuery,
-    getOrderProductById,
-    addOrderQuery,
-    addOrderProductQuery,
-    updateOrderQuery,
-    removeOrderQuery,
-    removeOrderProductsQuery,
+    getAllOrders,
+    getOrderById,
+    getLastOrder,
+    addOrder,
+    updateOrder,
+    removeOrder,
 };
