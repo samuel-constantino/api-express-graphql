@@ -87,6 +87,7 @@ const update = async (args) => {
             getProductById,
             [id],
             (err, row) => {
+                console.log(row)
                 err && reject(err);
 
                 resolve(row);
