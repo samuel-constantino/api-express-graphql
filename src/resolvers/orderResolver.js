@@ -10,6 +10,8 @@ const {
 
 const { getClientById } = require('../database/queriesSQL/clients');
 
+const { getProductById, updateProduct } = require('../database/queriesSQL/products');
+
 const sendEmail = require('../util/sendEmail');
 
 const getAll = async () => {
@@ -50,31 +52,74 @@ const create = async (args) => {
             installments,
             status,
         ];
-        // Adiciona o pedido no banco de dados
-        db.run(
-            addOrder,
-            params,
-            (err) => { err && reject(err.message) },
-        );
-        
-        // Envia email para o cliente
+
+        // Verifica quantidade de produtos
         db.get(
-            getClientById,
-            [client_id],
+            getProductById,
+            [product_id],
             (err, row) => {
-                err && reject(err.message);
+                err && reject(err);
 
-                process.env.SEND_EMAIL === 'true' && sendEmail(row);
-            }
-        );
+                if (row.quantity >= 1) {
 
-        // Busca e retorna o pedido que acabou de ser adicionado
-        db.get(
-            getLastOrder,
-            (err, row) => {
-                err && reject(err.message);
+                    // Adiciona o pedido no banco de dados
+                    db.run(
+                        addOrder,
+                        params,
+                        (err) => { err && reject(err) },
+                    );
 
-                resolve(row);
+                    // Atualiza estoque de produtos
+                    db.get(
+                        getProductById,
+                        [product_id],
+                        (err, row) => {
+                            err && reject(err);
+                            
+                            const { name, image, description, weight, price, quantity } = row;
+
+                            const params = [
+                                name,
+                                image,
+                                description,
+                                weight,
+                                price,
+                                quantity - 1,
+                                product_id,
+                            ];
+
+                            db.run(
+                                updateProduct,
+                                params,
+                                (err) => { err && reject(err) },
+                            );
+                        },
+                    );
+                    
+                    // Envia email para o cliente
+                    db.get(
+                        getClientById,
+                        [client_id],
+                        (err, row) => {
+                            err && reject(err);
+
+                            process.env.SEND_EMAIL === 'true' && sendEmail(row);
+                        }
+                    );
+
+                    // Busca e retorna o pedido que acabou de ser adicionado
+                    db.get(
+                        getLastOrder,
+                        (err, row) => {
+                            err && reject(err);
+                            console.log(row)
+                            resolve(row);
+                        },
+                    );
+
+                } else {
+                    reject(new Error('Não há estoque disponível para este produto'));
+                }
             },
         );
     });
