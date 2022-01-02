@@ -2,23 +2,6 @@ const sqlite3 = require('sqlite3').verbose();
 
 const db = new sqlite3.Database('./e-commerce.db');
 
-const createAdressesTable = () => {
-    const query = `
-        CREATE TABLE IF NOT EXISTS adresses (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            street VARCHAR(50) NOT NULL,
-            city VARCHAR(50) NOT NULL,
-            district VARCHAR(15) NOT NULL,
-            state VARCHAR(15) NOT NULL,
-            country VARCHAR(15) NOT NULL,
-            zipcode VARCHAR(15) NOT NULL,
-            number VARCHAR(15)
-        )
-    `;
-
-    return db.run(query);
-};
-
 const createClientsTable = () => {
     const query = `
         CREATE TABLE IF NOT EXISTS clients (
@@ -27,8 +10,13 @@ const createClientsTable = () => {
             email VARCHAR(50) NOT NULL UNIQUE,
             cpf VARCHAR(14) NOT NULL UNIQUE,
             birthdate DATE NOT NULL,
-            adress_id INTEGER NOT NULL,
-            FOREIGN KEY (adress_id) REFERENCES adresses(id)
+            street VARCHAR(50) NOT NULL,
+            city VARCHAR(50) NOT NULL,
+            district VARCHAR(15) NOT NULL,
+            state VARCHAR(15) NOT NULL,
+            country VARCHAR(15) NOT NULL,
+            zipcode VARCHAR(15) NOT NULL,
+            number VARCHAR(15)
         )
     `;
 
@@ -68,7 +56,6 @@ const createOrdersTable = () => {
 };
 
 const createDatabase = () => {
-    createAdressesTable();
     createClientsTable();
     createProductsTable();
     createOrdersTable();

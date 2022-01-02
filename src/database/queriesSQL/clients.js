@@ -2,7 +2,7 @@ const getAllClients = `
   SELECT * FROM clients
 `;
 
-const getClientByIdQuery = `
+const getClientById = `
     SELECT * FROM clients WHERE id = ?
 `;
 
@@ -10,20 +10,21 @@ const getLastClient = `
     SELECT * FROM clients ORDER BY id DESC LIMIT 1
 `;
 
-const addClientQuery = `
+const addClient = `
     INSERT INTO clients
-        (name, email, cpf, birthDate, street, district, state, country, zipcode, number)
+        (name, email, cpf, birthdate, street, city, district, state, country, zipcode, number)
     VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
-const updateClientQuery = `
+const updateClient = `
     UPDATE clients SET
         name = ?,
         email = ?,
         cpf = ?,
-        birthDate = ?,
+        birthdate = ?,
         street = ?,
+        city = ?,
         district = ?,
         state = ?,
         country = ?,
@@ -32,15 +33,15 @@ const updateClientQuery = `
     WHERE id = ?
 `;
 
-const removeClientQuery = `
+const removeClient = `
     DELETE FROM clients WHERE id = ?
 `;
 
 module.exports = {
     getAllClients,
-    getClientByIdQuery,
+    getClientById,
     getLastClient,
-    addClientQuery,
-    updateClientQuery,
-    removeClientQuery,
+    addClient,
+    updateClient,
+    removeClient,
 };

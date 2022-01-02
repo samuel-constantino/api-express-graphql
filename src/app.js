@@ -4,7 +4,7 @@ const expressPlayground = require('graphql-playground-middleware-express').defau
 
 const { createDatabase } = require('./database/database');
 const schema = require('./schema');
-const resolvers = require('./resolvers');
+const resolvers = require('./resolvers/rootResolvers');
 
 createDatabase();
 

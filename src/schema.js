@@ -12,11 +12,6 @@ const schema = buildSchema(`
         email: String!,
         cpf: String!,
         birthdate: String!,
-        adress: [Adress!]!,
-    }
-
-    type Adress {
-        id: ID!,
         street: String!,
         city: String!,
         district: String!,
@@ -24,8 +19,41 @@ const schema = buildSchema(`
         country: String!,
         zipcode: String!,
         number: String!,
-        client: Client!,
     }
+
+    type Mutation {
+        addClient(
+            name: String!,
+            email: String!, 
+            cpf: String!,
+            birthdate: String!,
+            street: String!,
+            city: String!,
+            district: String!,
+            state: String!,
+            country: String!,
+            zipcode: String!,
+            number: String!
+        ): Client!,
+
+        updateClient(
+            id: ID!,
+            name: String!,
+            email: String!,
+            cpf: String!,
+            birthdate: String!,
+            street: String!,
+            city: String!,
+            district: String!,
+            state: String!,
+            country: String!,
+            zipcode: String!,
+            number: String!
+        ): Client!,
+
+        removeClient(id: ID!): Client!
+    }
+
 `);
 
 module.exports = schema;
