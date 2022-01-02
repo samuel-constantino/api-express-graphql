@@ -1,0 +1,7 @@
+apps:
+  - name: 'api-express-graphql-0209'
+    script: './src/server.js'
+    exec_mode: 'cluster'
+    instances: 2
+    watch: false
+    max_memory_restart: 200M
