@@ -8,6 +8,10 @@ const {
     removeOrder,
 } = require('../database/queriesSQL/orders');
 
+const { getClientById } = require('../database/queriesSQL/clients');
+
+const sendEmail = require('../util/sendEmail');
+
 const getAll = async () => {
     return new Promise((resolve, reject) => {
         db.all(
@@ -46,17 +50,29 @@ const create = async (args) => {
             installments,
             status,
         ];
-
+        // Adiciona o pedido no banco de dados
         db.run(
             addOrder,
             params,
-            (err) => { err && reject(err) },
+            (err) => { err && reject(err.message) },
+        );
+        
+        // Envia email para o cliente
+        db.get(
+            getClientById,
+            [client_id],
+            (err, row) => {
+                err && reject(err.message);
+
+                process.env.SEND_EMAIL === 'true' && sendEmail(row);
+            }
         );
 
+        // Busca e retorna o pedido que acabou de ser adicionado
         db.get(
             getLastOrder,
             (err, row) => {
-                err && reject(err);
+                err && reject(err.message);
 
                 resolve(row);
             },
