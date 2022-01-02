@@ -284,3 +284,124 @@ describe('fetch products', () => {
         expect(response.status).toBe(200);
     });
 });
+
+describe('fetch orders', () => {
+    it('should return all orders', async () => {
+        const response = await request
+            .post('/graphql')
+            .send({
+                query: `
+                    query getAllOrders{
+                        orders{
+                            id,
+                            client_id,
+                            product_id,
+                            created_at,
+                            installments,
+                            status
+                        }
+                    }
+                `,
+            })
+            .set('Accept', 'application/json');
+        
+        expect(response.status).toBe(200);
+    });
+
+    it('should return a order', async () => {
+        const response = await request
+            .post('/graphql')
+            .send({
+                query: `
+                    query getOrderById{
+                        order(id:1){
+                            id,
+                            client_id,
+                            product_id,
+                            created_at,
+                            installments,
+                            status
+                        }
+                    }
+                `,
+            })
+            .set('Accept', 'application/json');
+        
+        expect(response.status).toBe(200);
+    });
+
+    it('should add a order', async () => {
+        const response = await request
+            .post('/graphql')
+            .send({
+                query: `
+                    mutation addOrder{
+                        addOrder(
+                            client_id: 1,
+                            product_id: 1,
+                            created_at: "2020-09-01",
+                            installments: 2,
+                            status: "PENDENTE"
+                        ){
+                            id,
+                            client_id,
+                            product_id,
+                            created_at,
+                            installments,
+                            status
+                        }
+                    }
+                `,
+            })
+            .set('Accept', 'application/json');
+        
+        expect(response.status).toBe(200);
+    });
+
+    it('should update a order', async () => {
+        const response = await request
+            .post('/graphql')
+            .send({
+                query: `
+                    mutation updateOrder{
+                        updateOrder(
+                            id: 1,
+                            client_id: 2,
+                            product_id: 2,
+                            created_at: "2020-09-02",
+                            installments: 3,
+                            status: "PENDENTE"
+                        ){
+                            id,
+                            client_id,
+                            product_id,
+                            created_at,
+                            installments,
+                            status
+                        }
+                    }
+                `,
+            })
+            .set('Accept', 'application/json');
+
+        expect(response.status).toBe(200);
+                    
+    });
+
+    it('should remove a order', async () => {
+        const response = await request
+            .post('/graphql')
+            .send({
+                query: `
+                mutation removeOrder{
+                    removeOrder(id: 5){
+                            id,
+                        }
+                    }
+                `,
+            })
+            .set('Accept', 'application/json');
+        
+        expect(response.status).toBe(200);
+    });
+});
