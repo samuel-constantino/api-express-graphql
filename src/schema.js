@@ -3,7 +3,7 @@ const { buildSchema } = require('graphql');
 const schema = buildSchema(`
     type Query {
         clients: [Client!],
-        client(id: Int!): Client!,
+        client(id: Int!): Client,
     }
 
     type Client {
