@@ -47,12 +47,12 @@ Esta API está disponível para uso público em [Playground GraphQL](https://api
 ### Documentação interativa
 No Playground do link acima é possível acessar a documentação nativa disponibilizada pelo Graphql:
 
-![interative-doc-graphql]()
+![interative-doc-graphql](https://github.com/samuel-constantino/api-express-graphql/blob/main/imgs/interative-doc-graphql.gif)
 
 ### Banco de Dados
 O banco de dados dessa aplicação possui três entidades: Cliente, Produto e Pedido. A imagem a seguir representa seus atributos e relacionamentos:
 
-![data-base-model]()
+![data-base-model](https://github.com/samuel-constantino/api-express-graphql/blob/main/imgs/bd.png)
 ### Schema
 
 Segue o esquema que representa as entidades na API:
