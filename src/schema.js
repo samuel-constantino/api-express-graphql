@@ -103,7 +103,6 @@ const schema = buildSchema(`
         addOrder(
             client_id: ID!,
             product_id: ID!,
-            created_at: String!,
             installments: Int!,
             status: String!
         ): Order!,
@@ -112,7 +111,6 @@ const schema = buildSchema(`
             id: ID!,
             client_id: ID!,
             product_id: ID!,
-            created_at: String!,
             installments: Int!,
             status: String!
         ): Order!,

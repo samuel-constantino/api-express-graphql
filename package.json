@@ -1,7 +1,7 @@
 {
   "name": "api-express-graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "API de e-commerce construída com Express + GraphQL + SQLite",
   "main": "index.js",
   "scripts": {
     "start": "pm2-runtime start ecosystem.config.yml",
@@ -9,8 +9,12 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Samuel Constantino <samuelicapuidados@gmail.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuel-constantino/api-express-graphql.git"
+  },
   "dependencies": {
     "@pm2/pm2-version-check": "^1.0.4",
     "dotenv": "^10.0.0",
