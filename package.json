@@ -16,7 +16,9 @@
     "url": "git+https://github.com/samuel-constantino/api-express-graphql.git"
   },
   "dependencies": {
+    "@graphql-tools/merge": "^8.2.1",
     "@pm2/pm2-version-check": "^1.0.4",
+    "apollo-server-express": "^3.6.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-graphql": "^0.12.0",
