@@ -2,6 +2,8 @@
 // const Sequelize = require('sequelize');
 // const { development } = require('../../config/config');
 
+const sendEmail = require("../util/sendEmail");
+
 // const sequelize = new Sequelize(development);
 
 const create = async (clientId, productsIds, models) => {
@@ -36,6 +38,10 @@ const create = async (clientId, productsIds, models) => {
                     // transaction
                 },
             );
+
+            // Envia email
+            const client = await models.Client.findByPk(clientId);
+            if (process.env.SEND_EMAIL === 'true') sendEmail(client);
 
             message = 'Pedido de compra efetuado com sucesso.';
         }
