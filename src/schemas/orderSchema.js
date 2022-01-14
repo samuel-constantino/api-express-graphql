@@ -14,8 +14,8 @@ const orderSchema = gql`
     type Mutation {
         createOrder(
             clientId: Int!
-            productId: Int!
-        ): Order!
+            productsIds: [Int!]!
+        ): String!
     }
 `;
 

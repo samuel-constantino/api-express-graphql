@@ -7,10 +7,15 @@ const orderResolver = {
 
     Mutation: {
         async createOrder(_root, args, { models }) {
-            const { clientId, productId } = args;
-            return models.Order.create(
-                { clientId, productId },
-            );
+            const { clientId, productsIds } = args;
+
+            productsIds.forEach(async (productId) => {
+                await models.Order.create(
+                    { clientId, productId },
+                );
+            });
+
+            return 'Pedido de compra efetuado com sucesso';
         },
     },
 
