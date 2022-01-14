@@ -1,11 +1,13 @@
 const orders = [
   {
+    id: 1,
     clientId: 1,
     productId: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
   },
   {
+    id: 2,
     clientId: 2,
     productId: 2,
     createdAt: new Date(),

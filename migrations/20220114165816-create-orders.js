@@ -5,6 +5,13 @@ module.exports = {
     queryInterface.createTable(
       'Orders',
       {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+
         clientId: {
           type: Sequelize.INTEGER,
           references: {
@@ -13,7 +20,6 @@ module.exports = {
           },
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
-          primaryKey: true,
         },
 
         productId: {
@@ -24,7 +30,6 @@ module.exports = {
           },
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
-          primaryKey: true,
         },
 
         createdAt: { allowNull: false, type: Sequelize.DATE },
