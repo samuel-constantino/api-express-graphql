@@ -14,7 +14,7 @@ const addressSchema = gql`
     }
 
     type Query {
-        getAddress(id: Int!): Address
+        getAddress(id: Int!): Address!
     }
 
     type Mutation {
