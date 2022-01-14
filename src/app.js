@@ -17,7 +17,19 @@ server.start()
         server.applyMiddleware({ app });
     });
 
-models.sequelize.authenticate();
-models.sequelize.sync();
+const testConnection = async () => {
+    try {
+        await models.sequelize.authenticate();
+        
+        console.log('Conexão estabelecida com sucesso.');
+        
+        await models.sequelize.sync();
+        
+        console.log('Todos os módulos foram sincronizados com sucesso.');
+    } catch (error) {
+        console.error('Não foi possível conectar ao banco de dados:', error.message);
+    }
+};
+testConnection();
 
 module.exports = app;
