@@ -1,3 +1,5 @@
+const { create } = require('../services/order');
+
 const orderResolver = {
     Query: {
         async getOrder(_root, { id }, { models }) {
@@ -9,13 +11,9 @@ const orderResolver = {
         async createOrder(_root, args, { models }) {
             const { clientId, productsIds } = args;
 
-            productsIds.forEach(async (productId) => {
-                await models.Order.create(
-                    { clientId, productId },
-                );
-            });
+            const result = create(clientId, productsIds, models);
 
-            return 'Pedido de compra efetuado com sucesso';
+            return result;
         },
     },
 
