@@ -1,151 +1,32 @@
-const { db } = require('../database/database');
-const {
-    getAllClients,
-    getClientById,
-    getLastClient,
-    addClient,
-    updateClient,
-    removeClient,
-} = require('../database/queriesSQL/clients');
+const clientResolver = {
+    Query: {
+        async getClient(_root, { id }, { models }) {
+            return models.Client.findByPk(id);
+        },
 
-const getAll = async () => {
-    return new Promise((resolve, reject) => {
-        db.all(
-            getAllClients,
-            (err, rows) => {
-                err && reject(err);
+        async getAllClients(_root, _args, { models }) {
+            return models.Client.findAll();
+        },
+    },
 
-                resolve(rows);
-            },
-        );
-    });
+    Mutation: {
+        async createClient(_root, { name, email, cpf, bithdate }, { models }) {
+            return models.Client.create({
+                name, email, cpf, bithdate,
+            });
+        },
+
+        async removeClient(_root, { id }, { models }) {
+            await models.Client.destroy({ where: { id } });
+            return 'Cliente removido com sucesso';
+        },
+    },
+
+    Client: {
+        async address(Client, _args, { models }) {
+            return models.Address.findAll({ where: { ClientId: Client.id } });
+        },
+    },
 };
 
-const getById = async (id) => {
-    return new Promise((resolve, reject) => {
-        db.get(
-            getClientById,
-            id,
-            (err, row) => {
-                err && reject(err);
-
-                resolve(row);
-            },
-        );
-    });
-};
-
-const create = async (args) => {
-    const {
-        name,
-        email,
-        cpf,
-        birthdate,
-        street,
-        city,
-        district,
-        state,
-        country,
-        zipcode,
-        number
-    } = args;
-
-    return new Promise((resolve, reject) => {
-        const params = [
-            name,
-            email,
-            cpf,
-            birthdate,
-            street,
-            city,
-            district,
-            state,
-            country,
-            zipcode,
-            number,
-        ];
-        db.run(
-            addClient,
-            params,
-            (err) => { err && reject(err) },
-        );
-
-        db.get(
-            getLastClient,
-            (err, row) => {
-                err && reject(err);
-                
-                resolve(row);
-            }
-        )
-    });
-};
-
-const update = async (args) => {
-    const {
-        id,
-        name,
-        email,
-        cpf,
-        birthdate,
-        street,
-        city,
-        district,
-        state,
-        country,
-        zipcode,
-        number
-    } = args;
-
-    return new Promise((resolve, reject) => {
-        const params = [
-            name,
-            email,
-            cpf,
-            birthdate,
-            street,
-            city,
-            district,
-            state,
-            country,
-            zipcode,
-            number,
-            id,
-        ];
-        db.run(
-            updateClient,
-            params,
-            (err) => { err && reject(err) },
-        );
-
-        db.get(
-            getClientById,
-            id,
-            (err, row) => {
-                err && reject(err);
-                
-                resolve(row);
-            }
-        )
-    });
-};
-
-const remove = async (id) => {
-    return new Promise((resolve, reject) => {
-        db.run(
-            removeClient,
-            id,
-            (err) => { err && reject(err) },
-        );
-
-        resolve({id});
-    });
-};
-
-module.exports = {
-    getAll,
-    getById,
-    create,
-    update,
-    remove,
-};
+module.exports = clientResolver;
