@@ -1,8 +1,9 @@
 /* eslint-disable */
-// const Sequelize = require('sequelize');
-// const { development } = require('../../config/config');
 
 const sendEmail = require("../util/sendEmail");
+
+// const Sequelize = require('sequelize');
+// const { development } = require('../../config/config');
 
 // const sequelize = new Sequelize(development);
 
