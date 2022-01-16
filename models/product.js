@@ -9,6 +9,11 @@ const Product = (sequelize, DataType) => {
       price: DataType.FLOAT,
       quantity: DataType.INTEGER,
     },
+        {
+      indexes: [
+        { unique: true, fields: ['name', 'image', 'description'] },
+      ],
+    },
   );
 
   return ProductModel;
