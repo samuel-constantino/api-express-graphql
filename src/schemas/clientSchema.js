@@ -24,17 +24,6 @@ const clientSchema = gql`
         ): Client!
 
         removeClient(id: Int!): String!
-        
-        createAddress(
-            clientId: Int!
-            street: String!,
-            distric: String!,
-            city: String!,
-            state: String!,
-            country: String!,
-            cep: String!,
-            number: String!,
-        ): Address!
     }
 `;
 
