@@ -7,12 +7,6 @@ const {
     checkUniqueIndex,
 } = require('sequelize-test-helpers');
 
-const chai = require('chai');
-
-const sinonChai = require('sinon-chai');
-
-chai.use(sinonChai);
-
 const Client = require('../../../models/client');
 
 describe('Testa modelo de Cliente', function () {
