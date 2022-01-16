@@ -9,8 +9,8 @@ const Client = (sequelize, DataType) => {
     },
   );
 
-  ClientModel.associate = (models) => {
-    ClientModel.hasMany(models.Address, { as: 'addresses' });
+  ClientModel.associate = ({ Address }) => {
+    ClientModel.hasMany(Address, { as: 'addresses' });
   };
 
   return ClientModel;

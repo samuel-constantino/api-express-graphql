@@ -8,21 +8,20 @@ const {
 
 const { expect } = require('chai');
 
-const clientModel = require('../../../models/client');
-const addressModel = require('../../../models/client');
+const Client = require('../../../models/client');
 
 describe('Testa modelo de Cliente', () => {
-    const Client = clientModel(sequelize, dataTypes);
+    const ClientModel = Client(sequelize, dataTypes);
 
-    const client = new Client();
+    const client = new ClientModel();
 
-    describe('possui o nome "client"', () => {
-        checkModelName(Client)('Client');
+    const properties = ['name', 'email', 'cpf', 'birthday'];
+
+    describe('possui o nome "Client"', () => {
+        checkModelName(ClientModel)('Client');
     });
 
     describe('possui as propriedades corretas', () => {
-        const properties = ['name', 'email', 'cpf', 'birthday'];
-
         properties.forEach(checkPropertyExists(client));
     });
 });
