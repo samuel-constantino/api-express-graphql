@@ -1,3 +1,4 @@
+/* eslint-disable */
 const Client = (sequelize, DataType) => {
   const ClientModel = sequelize.define(
     'Client',
@@ -6,6 +7,11 @@ const Client = (sequelize, DataType) => {
       email: DataType.STRING,
       cpf: DataType.STRING,
       birthday: DataType.STRING,
+    },
+    {
+      indexes: [
+        { unique: true, fields: ['cpf', 'email'] },
+      ],
     },
   );
 

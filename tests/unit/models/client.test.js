@@ -4,24 +4,35 @@ const {
     dataTypes,
     checkModelName,
     checkPropertyExists,
+    checkUniqueIndex,
 } = require('sequelize-test-helpers');
 
-const { expect } = require('chai');
+const chai = require('chai');
+
+const sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
 
 const Client = require('../../../models/client');
 
-describe('Testa modelo de Cliente', () => {
+describe('Testa modelo de Cliente', function () {
     const ClientModel = Client(sequelize, dataTypes);
 
     const client = new ClientModel();
 
-    const properties = ['name', 'email', 'cpf', 'birthday'];
-
-    describe('possui o nome "Client"', () => {
+    describe('possui o nome "Client"', function () {
         checkModelName(ClientModel)('Client');
     });
+    
+    describe('possui as propriedades corretas', function () {
+        const properties = ['name', 'email', 'cpf', 'birthday'];
 
-    describe('possui as propriedades corretas', () => {
         properties.forEach(checkPropertyExists(client));
+    });
+
+    describe('possui indexes únicos corretos', function () {
+        const indexes = ['cpf', 'email'];
+
+        [indexes].forEach(checkUniqueIndex(client));
     });
 });
