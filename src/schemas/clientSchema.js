@@ -6,7 +6,7 @@ const clientSchema = gql`
         name: String!
         email: String!
         cpf: String!
-        bithdate: String!
+        birthdate: String!
         address: [Address!]!
     }
 
@@ -20,7 +20,7 @@ const clientSchema = gql`
             name: String!,
             email: String!,
             cpf: String!,
-            bithdate: String!
+            birthdate: String!
         ): Client!
 
         removeClient(id: Int!): String!

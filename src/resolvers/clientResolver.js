@@ -10,9 +10,9 @@ const clientResolver = {
     },
 
     Mutation: {
-        async createClient(_root, { name, email, cpf, bithdate }, { models }) {
+        async createClient(_root, { name, email, cpf, birthdate }, { models }) {
             return models.Client.create({
-                name, email, cpf, bithdate,
+                name, email, cpf, birthdate,
             });
         },
 
