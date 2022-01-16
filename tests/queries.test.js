@@ -8,7 +8,7 @@ const chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 
-const app = require('../../../src/app');
+const app = require('../src/app');
 
 const request = supertest(app);
 
@@ -44,8 +44,8 @@ describe('testa chamadas aos clientes', function () {
     it('deve adicionar um cliente', async function () {
         const query = `mutation {
             createClient(
-                name: "teste4",
-                email: "emailteste4",
+                name: "teste5",
+                email: "emailteste5",
                 cpf: "cpfteste4",
                 birthdate: "birthdateteste",
                 ){

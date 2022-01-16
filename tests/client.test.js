@@ -7,7 +7,7 @@ const {
     checkUniqueIndex,
 } = require('sequelize-test-helpers');
 
-const Client = require('../../../models/client');
+const Client = require('../models/client');
 
 describe('Testa modelo de Cliente', function () {
     const ClientModel = Client(sequelize, dataTypes);

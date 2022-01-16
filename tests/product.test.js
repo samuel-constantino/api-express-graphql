@@ -7,7 +7,7 @@ const {
     checkUniqueIndex,
 } = require('sequelize-test-helpers');
 
-const Product = require('../../../models/product');
+const Product = require('../models/product');
 
 describe('Testa modelo de Produto', function () {
     const ProductModel = Product(sequelize, dataTypes);

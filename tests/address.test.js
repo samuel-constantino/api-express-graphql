@@ -6,7 +6,7 @@ const {
     checkPropertyExists,
 } = require('sequelize-test-helpers');
 
-const Address = require('../../../models/address');
+const Address = require('../models/address');
 
 describe('Testa modelo de Endereço', function () {
     const AddressModel = Address(sequelize, dataTypes);
