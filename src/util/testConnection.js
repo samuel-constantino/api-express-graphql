@@ -12,7 +12,7 @@ const testConnection = async () => {
         formatMessage('Conexão estabelecida com sucesso.');
         
         await models.sequelize.sync();
-        formatMessage('Todos os módulos foram sincronizados com sucesso.');
+        formatMessage('Todos as entidades foram sincronizados com sucesso.');
     } catch (error) {
         console.error('Não foi possível conectar ao banco de dados:', error.message);
     }
