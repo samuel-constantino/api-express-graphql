@@ -1,0 +1,22 @@
+const Product = (sequelize, DataType) => {
+  const ProductModel = sequelize.define(
+    'Product',
+    {
+      name: DataType.STRING,
+      image: DataType.STRING,
+      description: DataType.STRING,
+      weight: DataType.FLOAT,
+      price: DataType.FLOAT,
+      quantity: DataType.INTEGER,
+    },
+        {
+      indexes: [
+        { unique: true, fields: ['name', 'image', 'description'] },
+      ],
+    },
+  );
+
+  return ProductModel;
+};
+
+module.exports = Product;

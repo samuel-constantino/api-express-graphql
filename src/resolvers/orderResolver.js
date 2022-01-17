@@ -1,177 +1,27 @@
-const { db } = require('../database/database');
-const {
-    getAllOrders,
-    getOrderById,
-    getLastOrder,
-    addOrder,
-    updateOrder,
-    removeOrder,
-} = require('../database/queriesSQL/orders');
+const { create } = require('../services/order');
 
-const { getClientById } = require('../database/queriesSQL/clients');
+const orderResolver = {
+    Query: {
+        async getOrder(_root, { id }, { models }) {
+            return models.Order.findByPk(id);
+        },
+    },
 
-const { getProductById, updateProduct } = require('../database/queriesSQL/products');
+    Mutation: {
+        async createOrder(_root, args, { models }) {
+            const { clientId, productsIds } = args;
 
-const sendEmail = require('../util/sendEmail');
+            const result = create(clientId, productsIds, models);
 
-const getAll = async () => {
-    return new Promise((resolve, reject) => {
-        db.all(
-            getAllOrders,
-            (err, rows) => {
-                err && reject(err);
+            return result;
+        },
+    },
 
-                resolve(rows);
-            },
-        );
-    });
+    Order: {
+        async order(order) {
+            return order.getOrder();
+        },
+    },
 };
 
-const getById = async (id) => {
-    return new Promise((resolve, reject) => {
-        db.get(
-            getOrderById,
-            [id],
-            (err, row) => {
-                err && reject(err);
-
-                resolve(row);
-            },
-        );
-    });
-};
-
-const create = async (args) => {
-    const { client_id, product_id, installments, status } = args;
-
-    return new Promise((resolve, reject) => {
-        const params = [
-            client_id,
-            product_id,
-            created_at = new Date().toISOString(),
-            installments,
-            status,
-        ];
-
-        // Verifica quantidade de produtos
-        db.get(
-            getProductById,
-            [product_id],
-            (err, row) => {
-                err && reject(err);
-
-                if (row.quantity >= 1) {
-
-                    // Adiciona o pedido no banco de dados
-                    db.run(
-                        addOrder,
-                        params,
-                        (err) => { err && reject(err) },
-                    );
-
-                    // Atualiza estoque de produtos
-                    db.get(
-                        getProductById,
-                        [product_id],
-                        (err, row) => {
-                            err && reject(err);
-                            
-                            const { name, image, description, weight, price, quantity } = row;
-
-                            const params = [
-                                name,
-                                image,
-                                description,
-                                weight,
-                                price,
-                                quantity - 1,
-                                product_id,
-                            ];
-
-                            db.run(
-                                updateProduct,
-                                params,
-                                (err) => { err && reject(err) },
-                            );
-                        },
-                    );
-                    
-                    // Envia email para o cliente
-                    db.get(
-                        getClientById,
-                        [client_id],
-                        (err, row) => {
-                            err && reject(err);
-
-                            process.env.SEND_EMAIL === 'true' && sendEmail(row);
-                        }
-                    );
-
-                    // Busca e retorna o pedido que acabou de ser adicionado
-                    db.get(
-                        getLastOrder,
-                        (err, row) => {
-                            err && reject(err);
-                            
-                            resolve(row);
-                        },
-                    );
-
-                } else {
-                    reject(new Error('Não há estoque disponível para este produto'));
-                }
-            },
-        );
-    });
-};
-
-const update = async (args) => {
-    const { id, client_id, product_id, installments, status } = args;
-
-    return new Promise((resolve, reject) => {
-        const params = [
-            client_id,
-            product_id,
-            created_at = new Date().toISOString(),
-            installments,
-            status,
-            id,
-        ];
-
-        db.run(
-            updateOrder,
-            params,
-            (err) => { err && reject(err) },
-        );
-
-        db.get(
-            getOrderById,
-            [id],
-            (err, row) => {
-                err && reject(err);
-
-                resolve(row);
-            },
-        );
-    });
-};
-
-const remove = async (id) => {
-    return new Promise((resolve, reject) => {
-        db.run(
-            removeOrder,
-            [id],
-            (err) => { err && reject(err) },
-        );
-
-        resolve({id});
-    });
-};
-
-module.exports = {
-    getAll,
-    getById,
-    create,
-    update,
-    remove,
-};
+module.exports = orderResolver;

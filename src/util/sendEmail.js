@@ -12,12 +12,11 @@ const transporter = nodemailer.createTransport({
     },
     tls: {
         rejectUnauthorized: false,
-    }
+    },
 });
 
 const sendEmail = async (client) => {
-    try{
-
+    try {
         const { name, email } = client;
 
         const send = await transporter.sendMail({
@@ -28,8 +27,7 @@ const sendEmail = async (client) => {
         });
     
         console.log(send);
-
-    }catch(err) {
+    } catch (err) {
         console.log(err);
     }
 };

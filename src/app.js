@@ -1,23 +1,24 @@
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const expressPlayground = require('graphql-playground-middleware-express').default;
+const { ApolloServer } = require('apollo-server-express');
 
-const { createDatabase } = require('./database/database');
-const schema = require('./schema');
+const typeDefs = require('./schemas/rootSchemas');
 const resolvers = require('./resolvers/rootResolvers');
+const models = require('../models');
+const testConnection = require('./util/testConnection');
 
-createDatabase();
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: { models },
+});
 
 const app = express();
 
-app.use('/graphql', graphqlHTTP({
-    schema,
-    rootValue: resolvers,
-}));
+server.start()
+    .then((_res) => {
+        server.applyMiddleware({ app });
+    });
 
-// GraphQL Playground route
-app.use('/playground', expressPlayground({
-    endpoint: '/graphql',
-}));
+testConnection();
 
 module.exports = app;
